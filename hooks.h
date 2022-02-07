@@ -5,6 +5,7 @@
 
 namespace hooks {
 	using CreateMoveFn = bool(__stdcall*)(float sampleTime, C_UserCmd* cmd);
-
+	using CreateInterfaceFn = uintptr_t(__fastcall*)(const char*, uintptr_t);
+	
 }
 //hooks::CreateMoveFn originalCreateMove = nullptr;
