@@ -20,6 +20,13 @@ int buttons;
 // hooks
 hooks::CreateMoveFn originalCreateMove = nullptr;
 
+template <typename T, std::uint32_t index, typename ...Arguments>
+inline auto call_virtual(void* const class_base, Arguments... args) noexcept
+{
+    using fn = T(__thiscall***)(void*, Arguments...);
+    return ((*static_cast<fn>(class_base))[index])(class_base, args...);
+}
+
 template<typename T> T* GetInterface(HMODULE hModule, const char* interfaceName)
 {
     hooks::CreateInterfaceFn CreateInterface = reinterpret_cast<hooks::CreateInterfaceFn>(GetProcAddress(hModule, "CreateInterface"));

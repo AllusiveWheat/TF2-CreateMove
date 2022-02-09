@@ -82,8 +82,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\\detours-master\detours;$(SolutionDir)include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\\detours-master\x64\Debug;$(SolutionDir)lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\\detours-master\detours;$(SolutionDir)detours\detours;$(SolutionDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\\detours-master\x64\Debug;$(SolutionDir)detours\x64\Debug;$(SolutionDir)lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
