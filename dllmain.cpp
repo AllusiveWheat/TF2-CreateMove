@@ -69,10 +69,11 @@ DWORD WINAPI Menue(HINSTANCE hModule)
     FILE* fp;
     freopen_s(&fp, "CONOUT$", "w", stdout); //sets cout to be used with our newly created console
     uintptr_t clientBaseAddr = reinterpret_cast<uintptr_t>(GetModuleHandle(L"client.dll"));
-
     clientmode = *reinterpret_cast<IClientMode**>(clientBaseAddr + P_CLIENTMODE);
     IClientEntityList* g_EntityList = GetInterface<IClientEntityList>(GetModuleHandle(L"client.dll"), "VClientEntityList003");
     std::cout << "g_EntityList: " << std::hex << g_EntityList << std::endl;
+    // Local player
+
     uintptr_t localPlayer = reinterpret_cast<uintptr_t>(g_EntityList->GetClientEntity(0));
     std::cout << "clientmode: " << std::hex << clientmode << std::endl;
     std::cout << "LocalPlayer: " << std::hex << localPlayer << std::endl;
