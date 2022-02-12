@@ -1,18 +1,17 @@
 #pragma once
 #include "Vector3.h"
-
-class C_UserCmd
+#include <cstdint>
+struct C_UserCmd
 {
-public:
-	int command_number;
-	int tick_count;
-	float command_time;
-	Vector3 worldViewAngles;
-	Vector3 localViewAngles;
-	Vector3 attackangles;
-	float forwardmove;
-	float sidemove;
-	float upmove;
-	int buttons;
-	char impulse;
+	int command_number; //0
+	int tick_count; //4
+	int command_time;//8
+	Vector3 viewangles; //12
+	char pad1[28];//24
+	float			forwardmove;	 // members clamped [-1;1]//52			
+	float			sidemove;
+	float			upmove;
+	int	  buttons;//64
+	BYTE    impulse; //68
+	char pad2[0x68];
 };

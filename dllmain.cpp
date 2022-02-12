@@ -10,6 +10,7 @@
 #if _WIN64 
 #pragma comment(lib, "detours.lib")
 #endif
+#include "IVEngineClient.h"
 
 
 //Globals
@@ -19,6 +20,8 @@ float localViewAngles[3];
 int buttons;
 // hooks
 hooks::CreateMoveFn originalCreateMove = nullptr;
+
+
 
 template <typename T, std::uint32_t index, typename ...Arguments>
 inline auto call_virtual(void* const class_base, Arguments... args) noexcept
@@ -43,8 +46,8 @@ bool __fastcall CreateMoveHk(float sampleTime, C_UserCmd* cmd) {
         //MessageBoxA(0, "Hello from Create Move!!!", "Hi", 0);
         init = true;
     }
-        buttons = cmd->buttons;
-    
+ buttons = cmd->buttons;
+
    return originalCreateMove(sampleTime, cmd);
 }
 
@@ -72,18 +75,31 @@ DWORD WINAPI Menue(HINSTANCE hModule)
     clientmode = *reinterpret_cast<IClientMode**>(clientBaseAddr + P_CLIENTMODE);
     IClientEntityList* g_EntityList = GetInterface<IClientEntityList>(GetModuleHandle(L"client.dll"), "VClientEntityList003");
     std::cout << "g_EntityList: " << std::hex << g_EntityList << std::endl;
-    // Local player
-
-    uintptr_t localPlayer = reinterpret_cast<uintptr_t>(g_EntityList->GetClientEntity(0));
+ 
+    uintptr_t* IInputSystem = GetInterface<uintptr_t>(GetModuleHandle(L"inputsystem.dll"), "InputSystemVersion001");
+    std::cout << "IInputSystem: " << std::hex << IInputSystem << std::endl;
+    //VEngineClient013
+    IVEngineClient* g_engineClient = GetInterface< IVEngineClient>(GetModuleHandle(L"engine.dll"), "VEngineClient013");
+    uintptr_t* localPlayer = reinterpret_cast<uintptr_t*>(g_EntityList->GetClientEntity(1));
+    player_info_t pInfo;
+    bool playerInfo =  g_engineClient->GetPlayerInfo(1,&pInfo);
+    if (pInfo.szName) { 
+        char* name = pInfo.szName; 
+        std::cout << "Name: " << name << std::endl;
+    }
+    
+    std::cout << "engineLocalPlayer " << std::hex << g_engineClient->GetLocalPlayer() << std::endl;
     std::cout << "clientmode: " << std::hex << clientmode << std::endl;
     std::cout << "LocalPlayer: " << std::hex << localPlayer << std::endl;
+    std::cout << "playerInfo: " << std::hex << playerInfo << std::endl;
     originalCreateMove= (hooks::CreateMoveFn) Detours::X64::DetourClassVTable(*(uintptr_t*)clientmode, CreateMoveHk, 19);
+    
     std::cout << "originalCreateMove: " <<std::hex << originalCreateMove << std::endl;
-    std::cout << "buttons: " << std::hex << buttons << std::endl;
+   // std::cout << "buttons: " << std::hex << buttons << std::endl;
 
     while (true)
     {
-        std::cout << "buttons: " << std::hex << buttons << std::endl;
+      //  std::cout << "buttons: " << std::hex << buttons << std::endl;
 
         if (GetAsyncKeyState(VK_F10) & 1) {
             shutdown(fp, "Byby");

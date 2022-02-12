@@ -44,5 +44,8 @@
     <ClInclude Include="IClientEntityList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IVEngineClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
