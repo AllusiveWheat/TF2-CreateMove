@@ -12,6 +12,6 @@ struct C_UserCmd
 	float			sidemove;
 	float			upmove;
 	int	  buttons;//64
-	BYTE    impulse; //68
+	char    impulse; //68
 	char pad2[0x68];
 };

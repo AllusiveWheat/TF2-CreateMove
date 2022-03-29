@@ -16,10 +16,12 @@ public:
 	{
 		return vFunc<int(__fastcall*)(void*)>(this, 41)(this);
 	}
-bool GetPlayerInfo(int ent_num, player_info_s *pinfo)
+	/*
+	bool GetPlayerInfo(int ent_num, player_info_s *pinfo)
 	{
 		typedef bool(__thiscall* GetPlayerInfoFn)(int, player_info_s*);
-		GetPlayerInfoFn pGetPlayerInfo = (GetPlayerInfoFn)((*(PDWORD_PTR*)this)[34]);
+		GetPlayerInfoFn pGetPlayerInfo = (GetPlayerInfoFn)((*(uintptr_t*)this)[8]);
 		return pGetPlayerInfo(ent_num, pinfo);
 	}
-};
+	*/
+	};
